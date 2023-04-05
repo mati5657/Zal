@@ -16,6 +16,10 @@ namespace Zal.Controllers
             Title = title;
             Content = content;
         }
+
+        public ToDoModel()
+        {
+        }
     }
 
 }

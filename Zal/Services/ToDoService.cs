@@ -1,31 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Zal.Controllers;
+using Zal.Services;
 
 namespace Zal
 {
     public class ToDoService
     {
-        private List<ToDoModel> ToDos = new List<ToDoModel>
+        private readonly TodoDbContext _dbContext;
+
+        public ToDoService(TodoDbContext dbContext)
         {
-            new ToDoModel(1, "Cleaning", "I have to clean my room"),
-            new ToDoModel(2, "Shopping", "Buy groceries for the week"),
-            new ToDoModel(3, "Appointment", "Visit the doctor for a checkup"),
-            new ToDoModel(4, "Exercise", "Go for a run in the park")
-        };
+            _dbContext = dbContext;
+        }
 
         public void addToDo(ToDoModel toDo)
         {
-            ToDos.Add(toDo);
+      //      ToDos.Add(toDo);
         }
 
         public void removeTodo(int id)
         {
-            ToDos.RemoveAll(t => t.Id == id); 
+         //   ToDos.RemoveAll(t => t.Id == id); 
         }
         public List<ToDoModel> getAllToDos()
         {
-            return ToDos;
+            return _dbContext.ToDoModels.ToList();
         }
     }
 }
