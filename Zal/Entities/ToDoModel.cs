@@ -1,7 +1,10 @@
-﻿namespace Zal.Controllers
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Zal.Controllers
 {
     public class ToDoModel
     {
+        [Key]
         public int Id { get; set; }
         public int userId { get; set; }
         public string Title { get; set; }

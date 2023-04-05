@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Zal.Services;
 
 namespace Zal
 {
@@ -22,6 +24,11 @@ namespace Zal
             services.AddControllers();
             services.AddRazorPages();
             services.AddScoped<ToDoService>();
+
+            services.AddDbContext<TodoDbContext>(builder =>
+            {
+                builder.UseSqlServer("Data Source=DESKTOP-70TA2IQ;Initial Catalog=TodoDB;Integrated Security=True");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
