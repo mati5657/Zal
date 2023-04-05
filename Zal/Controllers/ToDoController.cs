@@ -17,7 +17,7 @@ namespace Zal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToDoItem(ToDoModel toDo)
+        public IActionResult AddToDoItem([FromBody]ToDoModel toDo)
         {
             _toDoService.addToDo(toDo);
             return Ok();

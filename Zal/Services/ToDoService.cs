@@ -16,9 +16,18 @@ namespace Zal
         }
 
         public void addToDo(ToDoModel toDo)
-        {
-      //      ToDos.Add(toDo);
-        }
+            {
+                var todo = new ToDoModel
+                {
+                    userId = toDo.userId,
+                    Title = toDo.Title,
+                    Content = toDo.Content
+                };
+
+                _dbContext.ToDoModels.Add(todo);
+                _dbContext.SaveChanges();
+            }
+        
 
         public void removeTodo(int id)
         {
