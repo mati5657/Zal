@@ -1,19 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Zal.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class HomeController : ControllerBase
+    [Route("")]
+    public class HomeController : Controller
     {
-        [HttpGet]
-        public IActionResult Index()
+        private readonly IFileProvider _fileProvider;
+
+        public HomeController(IFileProvider fileProvider)
         {
-            return File("~/path/to/your/index.html", "text/html");
+            _fileProvider = fileProvider;
+        }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var file = _fileProvider.GetFileInfo("/Home/index.html");
+            if (file.Exists)
+            {
+                return File(file.CreateReadStream(), "text/html");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

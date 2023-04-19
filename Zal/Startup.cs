@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 using Zal.Services;
 
 namespace Zal
@@ -22,6 +24,11 @@ namespace Zal
         {
             // Add services to the container.
             services.AddControllers();
+            services.AddControllersWithViews();
+
+            services.AddSingleton<IFileProvider>(
+                new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Views")));
             services.AddRazorPages();
             services.AddScoped<ToDoService>();
 

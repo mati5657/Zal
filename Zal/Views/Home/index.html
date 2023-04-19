@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>How to do list</title>
+    <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Avenir Light', sans-serif;
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+            .header-left h1 {
+                margin-right: 20px;
+                font-family: 'Cookie';
+            }
+
+        .header-photo {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin-right: 20px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .header-blank {
+            flex-grow: 1;
+        }
+
+        .header-right h1 {
+            margin-left: 20px;
+        }
+
+        aside {
+            width: 35%;
+            float: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        nav {
+            background-color: #fff;
+            flex-grow: 1;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        section {
+            background-color: #fff;
+            flex-grow: 1;
+            box-sizing: border-box;
+            display: flex;
+            padding: 10px;
+        }
+
+        main {
+            background-color: #fff;
+            flex-grow: 1;
+            height: 100vh;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .section-nav {
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .section-nav2 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .add-todo-button {
+            display: flex;
+            align-items: center;
+        }
+
+        .add-todo-text {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <p style="font-family: 'Cookie', sans-serif; color:black; font-size: 50px; margin-right: 10px;">How to do list</p>
+            <div class="header-photo" style="background-image: url('Biurko — MacBook Pro (Sylwia)/logo.png')"></div>
+            <div class="header-blank"></div>
+        </div>
+        <div class="header-right">
+            <p style="color:black; font-size: 25px; margin-right: 10px;">Logowanie</p>
+        </div>
+    </header>
+    <aside>
+        <nav>
+            <h2 class="section-nav">LISTS</h2>
+            <ul>
+                <li><a href="#">Upcoming</a></li>
+                <ul id="todo-list"></ul>
+                <li><a href="#">Completed</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $(function () {
+                // Attach a click event handler to the "Add Todo" button
+                $('#add-todo').on('click', function (e) {
+                    e.preventDefault();
+
+                    // Get the values of the input fields
+                    var title = $('#title').val();
+                    var content = $('#content').val();
+
+                    // Send a POST request to the server
+                    $.ajax({
+                        type: 'POST',
+                        url: '/todo',
+                        data: JSON.stringify({ Title: title, Content: content }),
+                        contentType: 'application/json',
+                        success: function () {
+                            alert('Todo added successfully!');
+                        },
+                        error: function () {
+                            alert('An error occurred while adding the todo.');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: "/todo",
+                    type: "GET",
+                    success: function (data) {
+                        // Clear the existing todo list
+                        $("#todo-list").empty();
+
+                        // Add each todo as a new <li> element to the list
+                        $.each(data, function (index, todo) {
+                            var listItem = $("<li>").text(todo.title + " - " + todo.content);
+                            $("#todo-list").append(listItem);
+                        });
+                    }
+                });
+            });
+        </script>
+
+        <form>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title"><br>
+
+            <label for="content">Content:</label>
+            <textarea id="content" name="content"></textarea><br>
+
+            <button id="add-todo">Add Todo</button>
+        </form>
+    </main>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            newTodo: "",
+            todos: [],
+            showForm: false,
+          };
+        },
+        methods: {
+          addTodo() {
+            if (this.newTodo) {
+                fetch('/todo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: 1,
+                        userId: 123,
+                        title: 'My new todo item',
+                        content: 'This is the content of my new todo item'
+                    })
+                })
+                    .then(data => {
+                        console.log('Todo item added successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Failed to add todo item');
+                    });
+            }
+          },
+        },
+      });
+
+      app.mount('#app');
+    </script>
+</body>
+</html>
