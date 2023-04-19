@@ -22,7 +22,8 @@ namespace Zal
                 {
                     userId = toDo.userId,
                     Title = toDo.Title,
-                    Content = toDo.Content
+                    Content = toDo.Content,
+                    Status = toDo.Status
                 };
 
                 _dbContext.ToDoModels.Add(todo);

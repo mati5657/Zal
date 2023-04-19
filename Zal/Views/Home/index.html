@@ -129,54 +129,6 @@
         </nav>
     </aside>
     <main>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-        <script>
-            $(function () {
-                // Attach a click event handler to the "Add Todo" button
-                $('#add-todo').on('click', function (e) {
-                    e.preventDefault();
-
-                    // Get the values of the input fields
-                    var title = $('#title').val();
-                    var content = $('#content').val();
-
-                    // Send a POST request to the server
-                    $.ajax({
-                        type: 'POST',
-                        url: '/todo',
-                        data: JSON.stringify({ Title: title, Content: content }),
-                        contentType: 'application/json',
-                        success: function () {
-                            alert('Todo added successfully!');
-                        },
-                        error: function () {
-                            alert('An error occurred while adding the todo.');
-                        }
-                    });
-                });
-            });
-        </script>
-
-        <script>
-            $(document).ready(function () {
-                $.ajax({
-                    url: "/todo",
-                    type: "GET",
-                    success: function (data) {
-                        // Clear the existing todo list
-                        $("#todo-list").empty();
-
-                        // Add each todo as a new <li> element to the list
-                        $.each(data, function (index, todo) {
-                            var listItem = $("<li>").text(todo.title + " - " + todo.content);
-                            $("#todo-list").append(listItem);
-                        });
-                    }
-                });
-            });
-        </script>
-
         <form>
             <label for="title">Title:</label>
             <input type="text" id="title" name="title"><br>
@@ -187,41 +139,51 @@
             <button id="add-todo">Add Todo</button>
         </form>
     </main>
-    <script>
-      const app = Vue.createApp({
-        data() {
-          return {
-            newTodo: "",
-            todos: [],
-            showForm: false,
-          };
-        },
-        methods: {
-          addTodo() {
-            if (this.newTodo) {
-                fetch('/todo', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        id: 1,
-                        userId: 123,
-                        title: 'My new todo item',
-                        content: 'This is the content of my new todo item'
-                    })
-                })
-                    .then(data => {
-                        console.log('Todo item added successfully:', data);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        alert('Failed to add todo item');
-                    });
-            }
-          },
-        },
-      });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-      app.mount('#app');
+    <script>
+        $(function () {
+            // Attach a click event handler to the "Add Todo" button
+            $('#add-todo').on('click', function (e) {
+                e.preventDefault();
+
+                // Get the values of the input fields
+                var title = $('#title').val();
+                var content = $('#content').val();
+
+                // Send a POST request to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '/todo',
+                    data: JSON.stringify({ Title: title, Content: content, Status: 'upcoming' }),
+                    contentType: 'application/json',
+                    success: function () {
+                        alert('Todo added successfully!');
+                    },
+                    error: function () {
+                        alert('An error occurred while adding the todo.');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/todo",
+                type: "GET",
+                success: function (data) {
+                    // Clear the existing todo list
+                    $("#todo-list").empty();
+
+                    // Add each todo as a new <li> element to the list
+                    $.each(data, function (index, todo) {
+                        var listItem = $("<li>").text(todo.title + " - " + todo.content);
+                        $("#todo-list").append(listItem);
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

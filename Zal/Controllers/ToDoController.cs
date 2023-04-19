@@ -42,7 +42,7 @@ namespace Zal.Controllers
 
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        [Route("todo/completed")]
+        [Route("/todo/completed")]
         public IActionResult GetCompletedToDos()
         {
             var toDos = _toDoService.getCompletedToDos();
@@ -53,7 +53,7 @@ namespace Zal.Controllers
 
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        [Route("todo/upcoming")]
+        [Route("/todo/upcoming")]
         public IActionResult GetUpcomingToDos()
         {
             var toDos = _toDoService.getUpcomingToDos();
