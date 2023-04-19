@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Zal.Controllers;
@@ -36,6 +37,20 @@ namespace Zal
         public List<ToDoModel> getAllToDos()
         {
             return _dbContext.ToDoModels.ToList();
+        }
+
+        public List<ToDoModel> getCompletedToDos()
+        {
+            return _dbContext.ToDoModels
+                .Where(t => t.Status == "Completed")
+                .ToList();
+        }
+
+        public List<ToDoModel> getUpcomingToDos()
+        {
+            return _dbContext.ToDoModels
+                .Where(t => t.Status == "Upcoming")
+                .ToList();
         }
     }
 }
