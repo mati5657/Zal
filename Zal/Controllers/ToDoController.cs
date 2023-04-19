@@ -17,7 +17,7 @@ namespace Zal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToDoItem([FromBody]ToDoModel toDo)
+        public IActionResult AddToDoItem([FromBody] ToDoModel toDo)
         {
             _toDoService.addToDo(toDo);
             return Ok();
@@ -42,6 +42,7 @@ namespace Zal.Controllers
 
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("/completed")]
         public IActionResult GetCompletedToDos()
         {
             var toDos = _toDoService.getAllToDos();
@@ -52,6 +53,7 @@ namespace Zal.Controllers
 
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("/upcoming")]
         public IActionResult GetUpcomingToDos()
         {
             var toDos = _toDoService.getAllToDos();

@@ -12,11 +12,12 @@ namespace Zal.Controllers
         public string Status { get; set; }
 
 
-        public ToDoModel(int id, string title, string content)
+        public ToDoModel(int id, string title, string content, string status)
         {
             Id = id;
             Title = title;
             Content = content;
+            Status = status;
         }
 
         public ToDoModel()
