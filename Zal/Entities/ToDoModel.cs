@@ -9,6 +9,8 @@ namespace Zal.Controllers
         public int userId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string Status { get; set; }
+
 
         public ToDoModel(int id, string title, string content)
         {

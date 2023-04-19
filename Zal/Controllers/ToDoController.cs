@@ -39,5 +39,25 @@ namespace Zal.Controllers
             var result = toDos.Select(x => new { x.Title, x.Content });
             return Ok(result);
         }
+
+        [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult GetCompletedToDos()
+        {
+            var toDos = _toDoService.getAllToDos();
+
+            var result = toDos.Select(x => new { x.Title, x.Content });
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult GetUpcomingToDos()
+        {
+            var toDos = _toDoService.getAllToDos();
+
+            var result = toDos.Select(x => new { x.Title, x.Content });
+            return Ok(result);
+        }
     }
 }
