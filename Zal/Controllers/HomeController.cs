@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using System;
@@ -20,6 +21,7 @@ namespace Zal.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             var file = _fileProvider.GetFileInfo("/Home/index.html");

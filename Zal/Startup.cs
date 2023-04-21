@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Threading.Tasks;
 using Zal.Entities;
 using Zal.Services;
 
@@ -44,6 +46,28 @@ namespace Zal
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<TodoDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+            {
+                options.LoginPath = "/Login";
+                options.AccessDeniedPath = "/Login";
+                options.Events = new CookieAuthenticationEvents
+            {
+            OnRedirectToAccessDenied = ctx =>
+            {
+                // handle access denied redirect
+                ctx.Response.Redirect("/Login");
+                return Task.CompletedTask;
+            },
+            OnRedirectToLogin = ctx =>
+            {
+                // handle login redirect
+                ctx.Response.Redirect("/");
+                return Task.CompletedTask;
+            }
+        };
+    });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,6 +84,8 @@ namespace Zal
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
