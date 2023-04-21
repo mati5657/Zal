@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html>
+﻿Sylwia Suchodolska
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>How to do list</title>
+    <title>Login page</title>
     <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'>
     <style>
         body {
@@ -100,40 +101,94 @@
         .add-todo-button {
             display: flex;
             align-items: center;
-            margin-top: 10px;
         }
 
+        .add-todo-text {
+            margin-left: 10px;
+        }
 
-        #title {
-            width: 40%;
-            box-sizing: border-box;
-            align-items: center;
+        .logindetails {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff;
         }
 
-        #content {
-            width: 40%;
-            height: 100px;
-            box-sizing: border-box;
-            align-items: center;
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        form {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        #add-todo {
-            width: 30%;
+        input[type="email"],
+        input[type="password"] {
+            width: 150%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            font-size: 16px;
+            background-color: #f8f8f8;
+        }
+
+        input[type="submit"] {
             background-color: #d2c7e1;
+            color: white;
             padding: 12px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            justify-content: center;
         }
+
+            input[type="submit"]:hover {
+                background-color: #d2c7e1;
+            }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#loginForm").submit(function(event) {
+                event.preventDefault(); // prevent form submission
+
+                // get form data
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                // create JSON object
+                var data = {
+                    "username": username,
+                    "password": password
+                };
+
+                // send AJAX request
+                $.ajax({
+                    url: "https://localhost:7109/login",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        // handle success response
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // handle error response
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -146,73 +201,19 @@
             <a href style="color:black; font-size: 25px; margin-right: 10px;">Login</a>
         </div>
     </header>
-    <aside>
-        <nav>
-            <h2 class="section-nav">LISTS</h2>
-            <ul>
-                <li><a href="#">Upcoming</a></li>
-                <ul id="todo-list"></ul>
-                <li><a href="#">Completed</a></li>
-            </ul>
-        </nav>
-    </aside>
-    <main>
-        <p>TODAY</p>
-        <form>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title"><br>
-
-            <label for="content">Content:</label>
-            <textarea id="content" name="content"></textarea><br>
-
-            <button id="add-todo">Add Todo</button>
+    <div class="logindetails">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="submit">Login</button>
         </form>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(function () {
-            // Attach a click event handler to the "Add Todo" button
-            $('#add-todo').on('click', function (e) {
-                e.preventDefault();
-
-                // Get the values of the input fields
-                var title = $('#title').val();
-                var content = $('#content').val();
-
-                // Send a POST request to the server
-                $.ajax({
-                    type: 'POST',
-                    url: '/todo',
-                    data: JSON.stringify({ Title: title, Content: content, Status: 'upcoming' }),
-                    contentType: 'application/json',
-                    success: function () {
-                        alert('Todo added successfully!');
-                    },
-                    error: function () {
-                        alert('An error occurred while adding the todo.');
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: "/todo",
-                type: "GET",
-                success: function (data) {
-                    // Clear the existing todo list
-                    $("#todo-list").empty();
-
-                    // Add each todo as a new <li> element to the list
-                    $.each(data, function (index, todo) {
-                        var listItem = $("<li>").text(todo.title + " - " + todo.content);
-                        $("#todo-list").append(listItem);
-                    });
-                }
-            });
-        });
-    </script>
+    </div>
 </body>
 </html>

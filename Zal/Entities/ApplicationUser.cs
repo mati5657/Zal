@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Zal.Entities
 {
-    public class LoginModel
+    public class ApplicationUser : IdentityUser
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public ICollection<IdentityUserClaim<string>> Claims { get; set; }
     }
 }
