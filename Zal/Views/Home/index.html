@@ -134,14 +134,13 @@
             justify-content: center;
         }
 
-        /* Style for the todo list */
-        #todo-list {
+        #todo-list, #todo-list-completed {
             list-style: none;
             padding: 0;
         }
 
             /* Style for the todo list items */
-            #todo-list li {
+            #todo-list li, #todo-list-completed li {
                 background-color: #f5f5f5;
                 margin-bottom: 10px;
                 padding: 20px;
@@ -168,7 +167,6 @@
                 background-color: #333;
                 color: #fff;
             }
-
     </style>
 </head>
 <body>
@@ -189,6 +187,7 @@
                 <li><a href="#">Upcoming</a></li>
                 <ul id="todo-list"></ul>
                 <li><a href="#">Completed</a></li>
+                <ul id="todo-list-completed"></ul>
             </ul>
         </nav>
     </aside>
@@ -235,7 +234,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: "/todo",
+                url: "/todo/upcoming",
                 type: "GET",
                 success: function (data) {
                     // Clear the existing todo list
@@ -268,6 +267,46 @@
 
                         // Append the todo item to the todo list
                         $("#todo-list").append(listItem);
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/todo/completed",
+                type: "GET",
+                success: function (data) {
+                    // Clear the existing todo list
+                    $("#todo-list").empty();
+
+                    // Add each todo as a new <li> element with a "Mark as Complete" button to the list
+                    $.each(data, function (index, todo) {
+                        var listItem = $("<li>").text(todo.title + " - " + todo.content);
+
+                        // Create the "Mark as Complete" button
+                        var completeButton = $("<button>")
+                            .text("Mark as done")
+                            .addClass("complete-todo");
+
+                        completeButton.on("click", function () {
+                            $.ajax({
+                                url: "/todo/done",
+                                type: "POST",
+                                data: JSON.stringify({ title: todo.title }),
+                                contentType: "application/json",
+                                success: function () {
+                                    console.log("Todo done!");
+                                }
+                            });
+                        });
+
+                        // Append the button to the todo item
+                        listItem.append(completeButton);
+
+                        // Append the todo item to the todo list
+                        $("#todo-list-completed").append(listItem);
                     });
                 }
             });

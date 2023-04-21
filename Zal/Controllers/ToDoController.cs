@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using Zal.Entities;
 
 namespace Zal.Controllers
 {
@@ -38,6 +39,26 @@ namespace Zal.Controllers
 
             var result = toDos.Select(x => new { x.Title, x.Content });
             return Ok(result);
+        }
+
+        [HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("/todo/complete")]
+        public IActionResult CompleteTodo([FromBody] CompleteToDoModel model)
+        {
+            var titleOfTodoToComplete = model.title;
+            _toDoService.completeToDoByTitle(titleOfTodoToComplete);
+            return Ok();
+        }
+
+        [HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("/todo/done")]
+        public IActionResult FinishTodo([FromBody] CompleteToDoModel model)
+        {
+            var titleOfTodoToComplete = model.title;
+            _toDoService.deleteTodoBy(titleOfTodoToComplete);
+            return Ok();
         }
 
         [HttpGet]

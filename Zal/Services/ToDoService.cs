@@ -23,13 +23,22 @@ namespace Zal
                     userId = toDo.userId,
                     Title = toDo.Title,
                     Content = toDo.Content,
-                    Status = toDo.Status
+                    Status = "Upcoming"
                 };
 
                 _dbContext.ToDoModels.Add(todo);
                 _dbContext.SaveChanges();
             }
-        
+
+        public void completeToDoByTitle(string title)
+        {
+            var todo = _dbContext.ToDoModels.SingleOrDefault(t => t.Title == title);
+            if (todo != null)
+            {
+                todo.Status = "Completed";
+                _dbContext.SaveChanges();
+            }
+        }
 
         public void removeTodo(int id)
         {
@@ -52,6 +61,17 @@ namespace Zal
             return _dbContext.ToDoModels
                 .Where(t => t.Status == "Upcoming")
                 .ToList();
+        }
+
+        public void deleteTodoBy(string title)
+        {
+            var todo = _dbContext.ToDoModels.FirstOrDefault(t => t.Title == title);
+
+            if (todo != null)
+            {
+                _dbContext.ToDoModels.Remove(todo);
+                _dbContext.SaveChanges();
+            }
         }
     }
 }
