@@ -24,13 +24,6 @@ namespace Zal.Controllers
             return Ok();
         }
 
-        [HttpDelete("/delete/{id}")]
-        public IActionResult RemoveToDoItem(int id)
-        {
-            _toDoService.removeTodo(id);
-            return Ok();
-        }
-
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult GetToDos()

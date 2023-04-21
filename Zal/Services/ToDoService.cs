@@ -40,10 +40,6 @@ namespace Zal
             }
         }
 
-        public void removeTodo(int id)
-        {
-         //   ToDos.RemoveAll(t => t.Id == id); 
-        }
         public List<ToDoModel> getAllToDos()
         {
             return _dbContext.ToDoModels.ToList();

@@ -1,5 +1,4 @@
-﻿Sylwia Suchodolska
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -112,7 +111,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 50vh;
             background-color: #fff;
         }
 
@@ -154,41 +153,6 @@
                 background-color: #d2c7e1;
             }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#loginForm").submit(function(event) {
-                event.preventDefault(); // prevent form submission
-
-                // get form data
-                var username = $("#username").val();
-                var password = $("#password").val();
-
-                // create JSON object
-                var data = {
-                    "username": username,
-                    "password": password
-                };
-
-                // send AJAX request
-                $.ajax({
-                    url: "https://localhost:7109/login",
-                    type: "POST",
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(response) {
-                        // handle success response
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        // handle error response
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
 </head>
 <body>
     <header>
@@ -203,17 +167,15 @@
     </header>
     <div class="logindetails">
         <h1>Login</h1>
-        <form id="loginForm">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username">
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password">
-            </div>
-            <button type="submit">Login</button>
+        <form>
+            <label for="email"><b>Email Address</b></label>
+            <input type="email" placeholder="Enter Email" name="email" required>
         </form>
+        <form>
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+        </form>
+        <input type="submit" value="Login">
     </div>
 </body>
 </html>
