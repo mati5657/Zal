@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Zal.Entities;
@@ -20,8 +21,15 @@ namespace Zal.Controllers
         [HttpPost]
         public IActionResult AddToDoItem([FromBody] ToDoModel toDo)
         {
-            _toDoService.addToDo(toDo);
-            return Ok();
+            try
+            {
+                _toDoService.addToDo(toDo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("/delete/{id}")]
