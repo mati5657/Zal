@@ -224,8 +224,10 @@
                     success: function () {
                         location.reload();
                     },
-                    error: function () {
-                        alert('An error occurred while adding the todo.');
+                    error: function (xhr, textStatus, error) {
+                        var responseText = xhr.responseText;
+                        var errorMessage = JSON.parse(responseText).Message;
+                        toastr.error(errorMessage);
                     }
                 });
             });

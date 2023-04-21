@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Web.Http;
 using Zal.Controllers;
 using Zal.Services;
 
@@ -17,6 +19,8 @@ namespace Zal
         }
 
         public void addToDo(ToDoModel toDo)
+        {
+            try
             {
                 var todo = new ToDoModel
                 {
@@ -29,6 +33,12 @@ namespace Zal
                 _dbContext.ToDoModels.Add(todo);
                 _dbContext.SaveChanges();
             }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+        }
+
 
         public void completeToDoByTitle(string title)
         {
