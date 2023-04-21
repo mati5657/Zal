@@ -134,9 +134,22 @@
             justify-content: center;
         }
 
+        #todo-title {
+            margin-bottom: 40px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
         #todo-list, #todo-list-completed {
             list-style: none;
             padding: 0;
+            margin-bottom: 40px;
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
         }
 
             /* Style for the todo list items */
@@ -150,18 +163,6 @@
                 text-align: center;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             }
-
-        /* Style for the link to the upcoming list */
-        li a {
-            font-weight: bold;
-            text-decoration: none;
-            color: #333;
-            font-size: 24px;
-            padding: 10px;
-            border: 2px solid #333;
-            border-radius: 10px;
-            transition: all 0.2s ease-in-out;
-        }
 
             li a:hover {
                 background-color: #333;
@@ -182,17 +183,16 @@
     </header>
     <aside>
         <nav>
-            <h2 class="section-nav">LISTS</h2>
             <ul>
-                <li><a href="#">Upcoming</a></li>
+                <a id="todo-title">Upcoming</a>
                 <ul id="todo-list"></ul>
-                <li><a href="#">Completed</a></li>
+                <a id="todo-title">Completed</a>
                 <ul id="todo-list-completed"></ul>
             </ul>
         </nav>
     </aside>
     <main>
-        <p>TODAY</p>
+        <p>ADD TODO</p>
         <form>
             <label for="title">Title:</label>
             <input type="text" id="title" name="title"><br>
@@ -222,7 +222,7 @@
                     data: JSON.stringify({ Title: title, Content: content, Status: 'upcoming' }),
                     contentType: 'application/json',
                     success: function () {
-                        alert('Todo added successfully!');
+                        location.reload();
                     },
                     error: function () {
                         alert('An error occurred while adding the todo.');
@@ -257,7 +257,7 @@
                                 data: JSON.stringify({ title: todo.title }),
                                 contentType: "application/json",
                                 success: function () {
-                                    console.log("Todo marked as complete!");
+                                    location.reload();
                                 }
                             });
                         });
@@ -297,7 +297,7 @@
                                 data: JSON.stringify({ title: todo.title }),
                                 contentType: "application/json",
                                 success: function () {
-                                    console.log("Todo done!");
+                                    location.reload();
                                 }
                             });
                         });
