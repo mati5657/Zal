@@ -43,31 +43,18 @@ namespace Zal
                 builder.UseSqlServer("Data Source=DESKTOP-70TA2IQ;Initial Catalog=TodoDB;Integrated Security=True");
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<TodoDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddAuthentication();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.LoginPath = "/Login";
-                options.AccessDeniedPath = "/Login";
-                options.Events = new CookieAuthenticationEvents
-            {
-            OnRedirectToAccessDenied = ctx =>
-            {
-                // handle access denied redirect
-                ctx.Response.Redirect("/Login");
-                return Task.CompletedTask;
-            },
-            OnRedirectToLogin = ctx =>
-            {
-                // handle login redirect
-                ctx.Response.Redirect("/");
-                return Task.CompletedTask;
-            }
-        };
-    });
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 2;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+            })
+            .AddEntityFrameworkStores<TodoDbContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

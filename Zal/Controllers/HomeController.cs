@@ -21,7 +21,7 @@ namespace Zal.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+      //  [Authorize]
         public ActionResult Index()
         {
             var file = _fileProvider.GetFileInfo("/Home/index.html");
